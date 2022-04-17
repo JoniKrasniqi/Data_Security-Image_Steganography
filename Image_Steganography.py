@@ -53,3 +53,29 @@ def encode():
     cv2.imwrite(enc_img, enc_data)
     img1 = Image.open(enc_img, 'r')
     img1 = img1.resize((w, h),Image.Resampling.LANCZOS)
+    # optimize with 100% quality
+    if w != h:
+        img1.save(enc_img, optimize=True, quality=100)
+    else:
+        img1.save(enc_img)
+
+
+# decoding the image
+
+def find_data(img):
+    bin_data = ""
+    for value in img:
+        for pix in value:
+            r, g, b = data2binary(pix)
+            bin_data += r[-1]
+            bin_data += g[-1]
+            bin_data += b[-1]
+
+    all_bytes = [bin_data[i: i + 8] for i in range(0, len(bin_data), 8)]
+
+    readable_data = ""
+    for x in all_bytes:
+        readable_data += chr(int(x, 2))
+        if readable_data[-2:] == "$$":
+            break
+    return readable_data[:-2]
