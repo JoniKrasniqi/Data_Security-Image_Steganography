@@ -79,3 +79,30 @@ def find_data(img):
         if readable_data[-2:] == "$$":
             break
     return readable_data[:-2]
+
+def decode():
+    img_name = input("\nEnter Image name: ")
+    image = cv2.imread(img_name)
+    img=Image.open(img_name,'r')
+    msg = find_data(image)
+    return msg
+
+
+#main function
+def stegnography():
+    x = 1
+    while x != 0:
+       print('''\nImage stegnography
+       1.Encode
+       2.Decode''')
+       u_in = int(input("\n Enter your choice: "))
+       if u_in == 1:
+           encode()
+       else:
+           ans = decode()
+           print("\n Your message: "+ans)
+       x = int(input("\nEnter 1 to CONTINUE, 0 to EXIT: "))
+
+
+#calling the function
+stegnography()
